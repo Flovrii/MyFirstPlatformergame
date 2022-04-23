@@ -1,14 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
+    public Text timer;
+    public Text coinCounterText;
     private Rigidbody rigidBodyComponent;
-    public static int totalCoins = 0;
+    public static int coinCounter = 0;
     bool jump;
     bool touchGround;
     private float horizontal;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +25,10 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && touchGround)
             jump = true;
         horizontal = Input.GetAxis("Horizontal");
+        if(coinCounter < 6)
+        {
+        timer.text = "Time: " + Mathf.Round(Time.time).ToString() + " s"; 
+        }
     }
     private void FixedUpdate()
     {
@@ -40,9 +47,8 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        totalCoins++;
-        GetComponent<AudioSource>().Play();
-        Debug.Log("Imas " + Player.totalCoins + " novcica");
+        coinCounter++;
         Destroy(other.gameObject);
+        GetComponent<AudioSource>().Play();
     }
 }
